@@ -277,22 +277,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1262109886 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100138, guid: e918257ae3d54e64782ebc8becb510b0,
-    type: 3}
-  m_PrefabInternal: {fileID: 1852638610}
---- !u!114 &1262109889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1262109886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e38676817b8f03b4186cb0de0237b45b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1571426337
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,23 +423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6177ebdd4a2ae474eb42232900473e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentTransform: {fileID: 2051207896}
-  mouseOrgX: 0
-  mouseOrgY: 0
-  rotSpeed: 10
-  tolerance: 10
-  zoomSpeed: 10
-  targToCamNoY: {x: 0, y: 0, z: 0}
-  yAngle: 0
-  yAngleTol: 10
-  yCompOrg: 0
-  tooHigh: 0
-  tooLow: 0
-  playerToCamera: {x: 0, y: 0, z: 0}
-  magAdjustment: 10
-  allowZoomOut: 0
-  minZoomDist: 10
-  maxZoomDist: 10
 --- !u!65 &2051207893
 BoxCollider:
   m_ObjectHideFlags: 0
