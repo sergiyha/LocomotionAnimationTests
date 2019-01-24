@@ -113,6 +113,22 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &355050330 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100138, guid: e918257ae3d54e64782ebc8becb510b0,
+    type: 3}
+  m_PrefabInternal: {fileID: 1852638610}
+--- !u!114 &355050333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 355050330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e38676817b8f03b4186cb0de0237b45b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &449351926
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,7 +401,7 @@ Prefab:
     - target: {fileID: 9500000, guid: e918257ae3d54e64782ebc8becb510b0, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 3a706d5c7389b9d45a1916187a2e1c9b, type: 2}
+      objectReference: {fileID: 9100000, guid: 15b2c77cf66e1534dabc63570b28445f, type: 2}
     - target: {fileID: 9500000, guid: e918257ae3d54e64782ebc8becb510b0, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0

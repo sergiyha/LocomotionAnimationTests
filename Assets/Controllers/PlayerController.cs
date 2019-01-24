@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 		var x = Input.GetAxis("Horizontal");
 		var y = Input.GetAxis("Vertical");
 
-		_animatorController.SetFloat("X", x);
-		_animatorController.SetFloat("Y", y);
+		_animatorController.SetFloat("XController", x);
+		_animatorController.SetFloat("YController", y);
 	}
 }
