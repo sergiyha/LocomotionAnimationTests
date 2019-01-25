@@ -35,7 +35,13 @@ public class CameraController : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		transform.position = Target.position + Offset - _rotation * Vector3.forward * Distance;
+		RaycastHit hit;
+		var dist = Distance;
+
+		if (Physics.SphereCast(new Ray(Target.position + Offset, _rotation * Vector3.back), .5f, out hit, Distance))
+			dist = hit.distance;
+
+		transform.position = Target.position + Offset - _rotation * Vector3.forward * dist;
 		transform.LookAt(Target.position + Offset);
 	}
 }
