@@ -11,12 +11,16 @@ public class ExampleScript : MonoBehaviour
 	[SerializeField] private GameObject _body;
 	[SerializeField] private Animator _animationController;
 
+	public CameraController _cameraController;
+	private Quaternion _facing;
+
 	private float angle;
 
 	void Start()
 	{
 		controller = GetComponent<CharacterController>();
 		gameObject.transform.position = new Vector3(0, 5, 0);
+		_facing = transform.rotation;
 
 	}
 
@@ -24,6 +28,7 @@ public class ExampleScript : MonoBehaviour
 	{
 		if (controller.isGrounded)
 		{
+
 
 			// We are grounded, so recalculate
 			// move direction directly from axes
@@ -39,12 +44,15 @@ public class ExampleScript : MonoBehaviour
 
 			if (x_raw != 0 || y_raw != 0)
 			{
+
+				RotatePlayerWithMapDirection();
+
 				var from = new Vector3(0, 1);
 				var to = new Vector3(x_horizontal, y_vertical);
 
 				angle = Vector3.Angle(from, to);
 				angle = (x_horizontal < 0) ? -angle : angle;
-				_body.transform.rotation = Quaternion.Euler(0, angle, 0);
+				_body.transform.localRotation = Quaternion.Euler(0, angle, 0);
 
 				_animationController.SetBool("IsMoving", true);
 
@@ -58,10 +66,24 @@ public class ExampleScript : MonoBehaviour
 			_animationController.SetFloat("Y", y_vertical);
 		}
 
+
 		// Apply gravity
 		moveDirection.y = moveDirection.y - (gravity * Time.deltaTime);
 
 		// Move the controller
 		controller.Move(moveDirection * Time.deltaTime);
+	}
+
+	private void MoveInDirection()
+	{
+
+	}
+
+	private void RotatePlayerWithMapDirection()
+	{
+		var rotation = Quaternion.LookRotation(_cameraController.GetDirectionToTarget());
+		rotation *= _facing;
+		transform.rotation = rotation;
+
 	}
 }

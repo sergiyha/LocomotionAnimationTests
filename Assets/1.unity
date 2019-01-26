@@ -306,8 +306,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 1856840117}
   Distance: 3
-  VerticalLock: 20
-  Offset: {x: 0, y: 0, z: 0}
+  VerticalLock: 30.1
+  Offset: {x: 0, y: 1, z: 0}
 --- !u!1 &1128170330
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,7 +573,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400138, guid: e918257ae3d54e64782ebc8becb510b0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400138, guid: e918257ae3d54e64782ebc8becb510b0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -622,7 +622,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1856840117}
-  - component: {fileID: 1856840114}
   - component: {fileID: 1856840113}
   - component: {fileID: 1856840118}
   m_Layer: 0
@@ -648,28 +647,15 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &1856840114
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1856840112}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!4 &1856840117
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1856840112}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 355050332}
@@ -693,6 +679,7 @@ MonoBehaviour:
   gravity: 20
   _body: {fileID: 355050330}
   _animationController: {fileID: 355050331}
+  _cameraController: {fileID: 1046490580}
 --- !u!1 &2051207891
 GameObject:
   m_ObjectHideFlags: 0

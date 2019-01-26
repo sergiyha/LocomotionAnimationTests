@@ -44,4 +44,9 @@ public class CameraController : MonoBehaviour
 		transform.position = Target.position + Offset - _rotation * Vector3.forward * dist;
 		transform.LookAt(Target.position + Offset);
 	}
+
+	public Vector3 GetDirectionToTarget()
+	{
+		return new Vector3(Target.transform.position.x - transform.position.x, 0f,Target.transform.position.z-transform.position.z);
+	}
 }
