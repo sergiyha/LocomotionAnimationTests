@@ -305,9 +305,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 1856840117}
-  Distance: 3
+  Distance: 4.2
   VerticalLock: 30.1
-  Offset: {x: 0, y: 1, z: 0}
+  Offset: {x: 0, y: 1.4, z: 0}
 --- !u!1 &1128170330
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,9 +645,9 @@ CharacterController:
   m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.1, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!4 &1856840117
 Transform:
   m_ObjectHideFlags: 0
@@ -680,6 +680,9 @@ MonoBehaviour:
   _body: {fileID: 355050330}
   _animationController: {fileID: 355050331}
   _cameraController: {fileID: 1046490580}
+  _slidingSettings:
+    StopingSpeed: 3
+    StopChekingValue: 0.01
 --- !u!1 &2051207891
 GameObject:
   m_ObjectHideFlags: 0
