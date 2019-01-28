@@ -113,11 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &355050330 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100138, guid: e918257ae3d54e64782ebc8becb510b0,
-    type: 3}
-  m_PrefabInternal: {fileID: 1852638610}
 --- !u!95 &355050331 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: e918257ae3d54e64782ebc8becb510b0,
@@ -677,7 +672,7 @@ MonoBehaviour:
   speed: 3
   jumpSpeed: 8
   gravity: 20
-  _body: {fileID: 355050330}
+  _body: {fileID: 1856840112}
   _animationController: {fileID: 355050331}
   _cameraController: {fileID: 1046490580}
   _rotationSmoothness: 10
