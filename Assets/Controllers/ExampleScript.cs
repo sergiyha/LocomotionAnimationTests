@@ -13,9 +13,9 @@ public class ExampleScript : MonoBehaviour
 	[SerializeField] private Animator _animationController;
 
 	public CameraController _cameraController;
-	private Quaternion _facing;
 
-	private float angle;
+
+	[SerializeField] private float _rotationSmoothness;
 
 	[SerializeField] private SlidingSettings _slidingSettings;
 
@@ -23,22 +23,31 @@ public class ExampleScript : MonoBehaviour
 	{
 		controller = GetComponent<CharacterController>();
 		gameObject.transform.position = new Vector3(0, 5, 0);
-		_facing = transform.rotation;
 
 	}
 
+	private float x_inertion;
+	private float y_inertion;
+
 	private float x_horizontal;
 	private float y_vertical;
+
+
+	private Vector3 _cameraRotationVector;
+	private Vector3 _playerDirection;
+
 	void Update()
 	{
 		if (controller.isGrounded)
 		{
+
 			if (CheckMovementButtons())
 			{
 				x_horizontal = Input.GetAxis("Horizontal");
 				y_vertical = Input.GetAxis("Vertical");
-				RotatePlayerWithCameraDirection();
-				RotateBody(x_horizontal, y_vertical);
+				_playerDirection = _cameraRotationVector = Quaternion.LookRotation(_cameraController.GetDirectionToTarget()) * new Vector3(x_horizontal, 0f, y_vertical);
+				//rotate axis vector depends on camera direction
+
 
 				_animationController.SetBool("IsMoving", true);
 
@@ -53,10 +62,10 @@ public class ExampleScript : MonoBehaviour
 				_animationController.SetBool("IsMoving", false);
 			}
 
-			MoveInDirection(x_horizontal, y_vertical);
+			MoveInDirection(_playerDirection.x, _playerDirection.z);
+			RotateBody(_cameraRotationVector.x, _cameraRotationVector.z);
 
 		}
-
 
 		// Apply gravity
 		moveDirection.y = moveDirection.y - (gravity * Time.deltaTime);
@@ -66,11 +75,14 @@ public class ExampleScript : MonoBehaviour
 
 	}
 
-
 	private void StopingInertion()
 	{
-		_slidingSettings.CheckAxesToStopIt(ref x_horizontal);
-		_slidingSettings.CheckAxesToStopIt(ref y_vertical);
+		var x = _playerDirection.x;
+		var z = _playerDirection.z;
+
+		_slidingSettings.CheckAxesToStopIt(ref x);
+		_slidingSettings.CheckAxesToStopIt(ref z);
+		_playerDirection = new Vector3(x, 0, z);
 	}
 
 
@@ -93,28 +105,17 @@ public class ExampleScript : MonoBehaviour
 
 	private void RotateBody(float x, float z)
 	{
-		var from = new Vector3(0, 1);
-		var to = new Vector3(x, z);
-
-		angle = Vector3.Angle(from, to);
-		angle = (x < 0) ? -angle : angle;
-		_body.transform.localRotation = Quaternion.Euler(0, angle, 0);
+		var rotation = Quaternion.LookRotation(new Vector3(x, 0, z));
+		_body.transform.rotation = Quaternion.Lerp(_body.transform.rotation, rotation, _rotationSmoothness * Time.deltaTime);
 	}
 
 	private void MoveInDirection(float x, float z)
 	{
 		moveDirection = new Vector3(x, 0.0f, z);
-		moveDirection = transform.TransformDirection(moveDirection);
+		//moveDirection = transform.TransformDirection(moveDirection);
 		moveDirection = moveDirection * speed;
 	}
 
-	private void RotatePlayerWithCameraDirection()
-	{
-		var rotation = Quaternion.LookRotation(_cameraController.GetDirectionToTarget());
-		rotation *= _facing;
-		transform.rotation = rotation;
-
-	}
 }
 
 [Serializable]
@@ -128,6 +129,7 @@ public class SlidingSettings
 
 	public void CheckAxesToStopIt(ref float axisValue)
 	{
+
 		if (Mathf.Abs(axisValue) > StopChekingValue)
 		{
 			axisValue = (axisValue > 0) ?

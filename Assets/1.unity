@@ -680,6 +680,7 @@ MonoBehaviour:
   _body: {fileID: 355050330}
   _animationController: {fileID: 355050331}
   _cameraController: {fileID: 1046490580}
+  _rotationSmoothness: 10
   _slidingSettings:
     StopingSpeed: 3
     StopChekingValue: 0.01
