@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class ExampleScript : MonoBehaviour
@@ -10,7 +11,7 @@ public class ExampleScript : MonoBehaviour
 	private Vector3 moveDirection = Vector3.zero;
 	private CharacterController controller;
 	[SerializeField] private GameObject _body;
-	[SerializeField] private Animator _animationController;
+	[SerializeField] private Animator _animator;
 
 	public CameraController _cameraController;
 
@@ -19,12 +20,22 @@ public class ExampleScript : MonoBehaviour
 
 	[SerializeField] private SlidingSettings _slidingSettings;
 
+
+	//Rolling
+	private bool _isRolling;
+	private BaseSmt _rollingSmt;
+
 	void Start()
 	{
 		controller = GetComponent<CharacterController>();
+		_rollingSmt = _animator.GetBehaviours<BaseSmt>().First(smt => smt.SMTName == "Rolling");
+		;//.First(smt => smt.SMTName == "Rolling");
+		_rollingSmt.StartSMT += OnRollingStarted;
+		_rollingSmt.ExitSMT += OnRollingFinished;
 		gameObject.transform.position = new Vector3(0, 5, 0);
 
 	}
+
 
 	private float x_inertion;
 	private float y_inertion;
@@ -49,17 +60,19 @@ public class ExampleScript : MonoBehaviour
 				//rotate axis vector depends on camera direction
 
 
-				_animationController.SetBool("IsMoving", true);
+				_animator.SetBool("IsMoving", true);
 
-				_animationController.SetFloat("X", x_horizontal);
-				_animationController.SetFloat("Y", y_vertical);
+				_animator.SetFloat("X", x_horizontal);
+				_animator.SetFloat("Y", y_vertical);
+
+				CheckRolling();
 			}
 			else
 			{
 
 				StopingInertion();
 
-				_animationController.SetBool("IsMoving", false);
+				_animator.SetBool("IsMoving", false);
 			}
 
 			MoveInDirection(_playerDirection.x, _playerDirection.z);
@@ -100,7 +113,25 @@ public class ExampleScript : MonoBehaviour
 		//Debug.LogError("ad: " + simultaneouslyDA + " ws: " + simultaneouslyWS + " any: " + any);
 
 		return any && !simultaneouslyWS && !simultaneouslyDA;
+	}
 
+	private void CheckRolling()
+	{
+		if (Input.GetKeyDown(KeyCode.Space) && !_isRolling)
+		{
+			_animator.SetTrigger("Roll");
+		}
+	}
+
+
+	private void OnRollingStarted()
+	{
+		_isRolling = true;
+	}
+
+	private void OnRollingFinished()
+	{
+		_isRolling = false;
 	}
 
 	private void RotateBody(float x, float z)
