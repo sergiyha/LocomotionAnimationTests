@@ -210,6 +210,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &761690379 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100138, guid: e918257ae3d54e64782ebc8becb510b0,
+    type: 3}
+  m_PrefabInternal: {fileID: 1852638610}
+--- !u!114 &761690380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 761690379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258ffa395610e6f41a3bc2b85a31033c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1046490576
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,6 +622,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: e918257ae3d54e64782ebc8becb510b0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e918257ae3d54e64782ebc8becb510b0, type: 3}
   m_IsPrefabAsset: 0
@@ -679,6 +699,8 @@ MonoBehaviour:
   _slidingSettings:
     StopingSpeed: 3
     StopChekingValue: 0.01
+  _animationEventHandler: {fileID: 761690380}
+  _rollingSpeed: 2
 --- !u!1 &2051207891
 GameObject:
   m_ObjectHideFlags: 0

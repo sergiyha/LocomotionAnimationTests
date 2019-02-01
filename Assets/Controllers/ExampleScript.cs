@@ -19,23 +19,29 @@ public class ExampleScript : MonoBehaviour
 	[SerializeField] private float _rotationSmoothness;
 
 	[SerializeField] private SlidingSettings _slidingSettings;
+	[SerializeField] private AnimationEventsHandler _animationEventHandler;
 
 
 	//Rolling
 	private bool _isRolling;
+
+	[SerializeField] private float _rollingSpeed;
+
 	private BaseSmt _rollingSmt;
 
 	void Start()
 	{
 		controller = GetComponent<CharacterController>();
-		_rollingSmt = _animator.GetBehaviours<BaseSmt>().First(smt => smt.SMTName == "Rolling");
+		//_rollingSmt = _animator.GetBehaviours<BaseSmt>().First(smt => smt.SMTName == "Rolling");
 		;//.First(smt => smt.SMTName == "Rolling");
-		_rollingSmt.StartSMT += OnRollingStarted;
-		_rollingSmt.ExitSMT += OnRollingFinished;
+		 //_rollingSmt.StartSMT += OnRollingStarted;
+		 //_rollingSmt.ExitSMT += OnRollingFinished;
+		 //_animationEventHandler.RollingAnimationStarted += OnRollingStarted;
+		_animationEventHandler.RollingAnimationFinished += OnRollingFinished;
+
 		gameObject.transform.position = new Vector3(0, 5, 0);
 
 	}
-
 
 	private float x_inertion;
 	private float y_inertion;
@@ -51,9 +57,11 @@ public class ExampleScript : MonoBehaviour
 	{
 		if (controller.isGrounded)
 		{
+			Debug.Log("2" + moveDirection);
 
-			if (CheckMovementButtons())
+			if (CheckMovementButtons() && !_isRolling)
 			{
+
 				x_horizontal = Input.GetAxis("Horizontal");
 				y_vertical = Input.GetAxis("Vertical");
 				_playerDirection = _cameraRotationVector = Quaternion.LookRotation(_cameraController.GetDirectionToTarget()) * new Vector3(x_horizontal, 0f, y_vertical);
@@ -69,20 +77,22 @@ public class ExampleScript : MonoBehaviour
 			}
 			else
 			{
+				if (!_isRolling)
+					StopingInertion();
 
-				StopingInertion();
 
 				_animator.SetBool("IsMoving", false);
 			}
 
-			MoveInDirection(_playerDirection.x, _playerDirection.z);
+			MoveInDirection();
 			RotateBody(_cameraRotationVector.x, _cameraRotationVector.z);
 
 		}
-
+		Debug.Log("3" + moveDirection);
 		// Apply gravity
 		moveDirection.y = moveDirection.y - (gravity * Time.deltaTime);
 
+		Debug.Log("4" + moveDirection);
 		controller.Move(moveDirection * Time.deltaTime);
 		// Move the controller
 
@@ -117,8 +127,14 @@ public class ExampleScript : MonoBehaviour
 
 	private void CheckRolling()
 	{
+		//if (_isRolling)
+		//{
+		//}
+
 		if (Input.GetKeyDown(KeyCode.Space) && !_isRolling)
 		{
+			OnRollingStarted();
+			_playerDirection = new Vector3(_playerDirection.x * _rollingSpeed, 0, _playerDirection.z * _rollingSpeed);
 			_animator.SetTrigger("Roll");
 		}
 	}
@@ -127,11 +143,15 @@ public class ExampleScript : MonoBehaviour
 	private void OnRollingStarted()
 	{
 		_isRolling = true;
+		Debug.LogError("start");
 	}
 
 	private void OnRollingFinished()
 	{
 		_isRolling = false;
+		_playerDirection = Vector3.zero;
+		Debug.LogError("finish");
+
 	}
 
 	private void RotateBody(float x, float z)
@@ -140,11 +160,9 @@ public class ExampleScript : MonoBehaviour
 		_body.transform.rotation = Quaternion.Lerp(_body.transform.rotation, rotation, _rotationSmoothness * Time.deltaTime);
 	}
 
-	private void MoveInDirection(float x, float z)
+	private void MoveInDirection()
 	{
-		moveDirection = new Vector3(x, 0.0f, z);
-		//moveDirection = transform.TransformDirection(moveDirection);
-		moveDirection = moveDirection * speed;
+		moveDirection = _playerDirection * speed;
 	}
 
 }
