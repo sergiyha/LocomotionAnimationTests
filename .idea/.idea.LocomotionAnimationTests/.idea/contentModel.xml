@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Project\LocomotionAnimationTests" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Controllers" t="Include">
+          <e p="AnimationEventsHandler.cs" t="Include" />
+          <e p="BasePlayerController.cs" t="Include" />
+          <e p="BaseSmt.cs" t="Include" />
+          <e p="CameraController.cs" t="Include" />
+          <e p="ExampleScript.cs" t="Include" />
+          <e p="LocomotionSMB.cs" t="Include" />
+          <e p="PlayerController.cs" t="Include" />
+        </e>
+        <e p="Humanoid_Characters" t="Include">
+          <e p="Mobility_Pro_Combo" t="Include">
+            <e p="Demo_Scene_Animation_README.txt" t="Include" />
+            <e p="MotusMan_v4_Avatar_README.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Mixamo" t="Include">
+          <e p="Magic Pack" t="Include">
+            <e p="Demo" t="Include">
+              <e p="CameraScroll.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="LocomotionAnimationTests.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+    </e>
+    <e p="C:\Users\Сергей\.Rider2018.1\system\resharper-host\Local\Transient\ReSharperHost\v12\SolutionCaches\_LocomotionAnimationTests.1856988558.00" t="ExcludeRecursive" />
+  </component>
+</project>
