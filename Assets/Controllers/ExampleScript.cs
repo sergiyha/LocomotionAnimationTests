@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using UnityEngine;
 
 public class ExampleScript : MonoBehaviour
@@ -134,7 +135,8 @@ public class ExampleScript : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Space) && !_isRolling)
 		{
 			OnRollingStarted();
-			_playerDirection = new Vector3(_playerDirection.x * _rollingSpeed, 0, _playerDirection.z * _rollingSpeed);
+			var normalized = _playerDirection.normalized;
+			_playerDirection = new Vector3(normalized.x * _rollingSpeed, 0, normalized.z * _rollingSpeed);
 			_animator.SetTrigger("Roll");
 		}
 	}
@@ -149,7 +151,8 @@ public class ExampleScript : MonoBehaviour
 	private void OnRollingFinished()
 	{
 		_isRolling = false;
-		_playerDirection = Vector3.zero;
+		_playerDirection = _playerDirection / _slidingSettings.StopingRolingSpeed;
+
 		Debug.LogError("finish");
 
 	}
@@ -175,6 +178,10 @@ public class SlidingSettings
 
 	[Range(0, 1)]
 	public float StopChekingValue = 0.01f;
+
+	[Range(0, 4)]
+	public float StopingRolingSpeed = 1.0f;
+
 
 	public void CheckAxesToStopIt(ref float axisValue)
 	{

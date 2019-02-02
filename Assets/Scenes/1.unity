@@ -689,7 +689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc59dd493ee29c74e92d3cb6358248b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 4
   jumpSpeed: 8
   gravity: 20
   _body: {fileID: 1856840112}
@@ -699,8 +699,9 @@ MonoBehaviour:
   _slidingSettings:
     StopingSpeed: 3
     StopChekingValue: 0.01
+    StopingRolingSpeed: 1
   _animationEventHandler: {fileID: 761690380}
-  _rollingSpeed: 2
+  _rollingSpeed: 1.2
 --- !u!1 &2051207891
 GameObject:
   m_ObjectHideFlags: 0
