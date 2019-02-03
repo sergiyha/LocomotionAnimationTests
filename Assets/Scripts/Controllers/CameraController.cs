@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 
 public class CameraController : MonoBehaviour
 {
@@ -37,24 +38,36 @@ public class CameraController : MonoBehaviour
 			}
 		}
 
+		var nextRotation = _rotation;
 
 		if (IsLock)
 		{
-			_rotation = Quaternion.LookRotation((_lockPoint.Position - Target.position + Offset).normalized);
+			var dif = _lockPoint.Position - (Target.position + Offset);
+			if (dif.magnitude < 10f)
+			{
+				nextRotation = Quaternion.LookRotation(dif.normalized);
+				nextRotation = Quaternion.RotateTowards(_rotation, nextRotation, 360f * Time.deltaTime);
+			}
+			else
+			{
+				_lockPoint = null;
+			}
 		}
 		else
 		{
 			_rotation = Quaternion.AngleAxis(Input.GetAxis("Mouse X"), Vector3.up) * _rotation;
 			var delta = Input.GetAxis("Mouse Y");
 
-			var nextRotation = _rotation * Quaternion.AngleAxis(delta, Vector3.left);
-
-			var nextAngle = Quaternion.Angle(nextRotation,
-				Quaternion.LookRotation(Vector3.right) * nextRotation *
-				Quaternion.Inverse(Quaternion.LookRotation(Vector3.right)));
-
-			if (nextAngle < VerticalLock) _rotation = nextRotation;
+			nextRotation = _rotation * Quaternion.AngleAxis(delta, Vector3.left);
 		}
+
+		var nextAngle = Quaternion.Angle(nextRotation,
+			Quaternion.LookRotation(Vector3.right) * nextRotation *
+			Quaternion.Inverse(Quaternion.LookRotation(Vector3.right)));
+
+		if (nextAngle < VerticalLock) _rotation = nextRotation;
+		else
+			_lockPoint = null;
 	}
 
 	private void LateUpdate()
