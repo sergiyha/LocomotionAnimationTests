@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
 			}
 			else
 			{
-				var enemy = _enemyManager.GetEnemyForLock(transform.position, _rotation);
+				var enemy = _enemyManager.GetEnemyForLock(Target.position + Offset, _rotation);
 				if (enemy != null) _lockPoint = enemy.GetLockPoint(transform.position);
 			}
 		}
