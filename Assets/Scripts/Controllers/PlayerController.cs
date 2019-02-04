@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
 				_animator.SetBool("IsMoving", false);
 			}
 
+				_cameraController.FollowCamera(_playerDirection);
 			_moveDirection = _playerDirection * speed;
 			RotateBody(_cameraRotationVector.x, _cameraRotationVector.z);
 		}

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Extensions;
+using UnityEngine;
 using UnityEngine.Experimental.UIElements;
 
 public class CameraController : MonoBehaviour
@@ -9,6 +10,8 @@ public class CameraController : MonoBehaviour
 
 	[Range(10f, 45f)] public float VerticalLock;
 	[SerializeField] private EnemyManager _enemyManager;
+	[SerializeField] private Transform _cameraParentTr;
+	[SerializeField] private Transform _cameraTransform;
 
 	public bool IsLock => _lockPoint != null;
 	public Vector3 Offset;
@@ -16,15 +19,34 @@ public class CameraController : MonoBehaviour
 	private Quaternion _rotation;
 	private LockPoint _lockPoint;
 
+	[Range(0f, 1f)] [SerializeField] private float _followCameraDampTime;
+	[Range(0, 40)] [SerializeField] private int _decreaseDirectionValue;
+
 	private void Awake()
 	{
-		transform.LookAt(Target.position + Offset);
-		_rotation = transform.rotation;
+		_cameraParentTr.LookAt(Target.position + Offset);
+		_rotation = _cameraParentTr.rotation;
 		Cursor.lockState = CursorLockMode.Locked;
+	}
+
+	public void FollowCamera(Vector3 xz_movDir)
+	{
+		_cameraTransform.position = new Vector3
+		(CustomMathF.QuadraticSmoothStep(_cameraTransform.transform.position.x - xz_movDir.x / _decreaseDirectionValue, _cameraParentTr.position.x, _followCameraDampTime),
+		_cameraTransform.position.y,
+		CustomMathF.QuadraticSmoothStep(_cameraTransform.transform.position.z - xz_movDir.z / _decreaseDirectionValue, _cameraParentTr.position.z, _followCameraDampTime));
+	}
+
+	public static float QuadraticSmoothStep(float from, float to, float t)
+	{
+		t = Mathf.Clamp01(t);
+		t = t * t;
+		return (float)((double)to * (double)t + (double)from * (1.0 - (double)t));
 	}
 
 	private void Update()
 	{
+
 		if (Input.GetMouseButtonDown(2))
 		{
 			if (IsLock)
@@ -34,7 +56,7 @@ public class CameraController : MonoBehaviour
 			else
 			{
 				var enemy = _enemyManager.GetEnemyForLock(Target.position + Offset, _rotation);
-				if (enemy != null) _lockPoint = enemy.GetLockPoint(transform.position);
+				if (enemy != null) _lockPoint = enemy.GetLockPoint(_cameraParentTr.position);
 			}
 		}
 
@@ -78,13 +100,13 @@ public class CameraController : MonoBehaviour
 		if (Physics.SphereCast(new Ray(Target.position + Offset, _rotation * Vector3.back), .25f, out hit, Distance))
 			dist = hit.distance;
 
-		transform.position = Target.position + Offset - _rotation * Vector3.forward * dist;
-		transform.LookAt(Target.position + Offset);
+		_cameraParentTr.position = Target.position + Offset - _rotation * Vector3.forward * dist;
+		_cameraParentTr.LookAt(Target.position + Offset);
 	}
 
 	public Vector3 GetDirectionToTarget()
 	{
-		return new Vector3(Target.transform.position.x - transform.position.x, 0f,
-			Target.transform.position.z - transform.position.z);
+		return new Vector3(Target.transform.position.x - _cameraParentTr.position.x, 0f,
+			Target.transform.position.z - _cameraParentTr.position.z);
 	}
 }
