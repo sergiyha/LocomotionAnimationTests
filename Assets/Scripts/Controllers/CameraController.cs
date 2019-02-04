@@ -32,9 +32,9 @@ public class CameraController : MonoBehaviour
 	public void FollowCamera(Vector3 xz_movDir)
 	{
 		_cameraTransform.position = new Vector3
-		(CustomMathF.QuadraticSmoothStep(_cameraTransform.transform.position.x - xz_movDir.x / _decreaseDirectionValue, _cameraParentTr.position.x, _followCameraDampTime),
+		(CustomMathF.DoubleSmoothStep(_cameraTransform.transform.position.x - xz_movDir.x / _decreaseDirectionValue, _cameraParentTr.position.x, _followCameraDampTime),
 		_cameraTransform.position.y,
-		CustomMathF.QuadraticSmoothStep(_cameraTransform.transform.position.z - xz_movDir.z / _decreaseDirectionValue, _cameraParentTr.position.z, _followCameraDampTime));
+		CustomMathF.DoubleSmoothStep(_cameraTransform.transform.position.z - xz_movDir.z / _decreaseDirectionValue, _cameraParentTr.position.z, _followCameraDampTime));
 	}
 
 	public static float QuadraticSmoothStep(float from, float to, float t)
