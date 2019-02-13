@@ -1,4 +1,7 @@
-﻿using Extensions;
+﻿using System;
+using System.Runtime.InteropServices;
+using Extensions;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements;
 
@@ -44,6 +47,14 @@ public class CameraController : MonoBehaviour
 		return (float)((double)to * (double)t + (double)from * (1.0 - (double)t));
 	}
 
+	[Header("Additional rotation settings")]
+	[Range(0, 45)] [SerializeField] private float _additionalRotationSpeed;
+
+	[Range(0, 1f)] [SerializeField] private float _mouseYAxisValueToStopRotation = 0.01f;
+	[Range(0, 1f)] [SerializeField] private float _startRotationWithHorizontalAxisMorThan = 0.1f;
+	[Range(0, 1f)] [SerializeField] private float _stopRotationWithVerticalAxisMorThan = 0.3f;
+
+
 	private void Update()
 	{
 
@@ -79,8 +90,19 @@ public class CameraController : MonoBehaviour
 		{
 			_rotation = Quaternion.AngleAxis(Input.GetAxis("Mouse X"), Vector3.up) * _rotation;
 			var delta = Input.GetAxis("Mouse Y");
-
 			nextRotation = _rotation * Quaternion.AngleAxis(delta, Vector3.left);
+
+			var x_horizontal = Input.GetAxis("Horizontal");
+			var y_vertical = Input.GetAxis("Vertical");
+
+			if (Mathf.Abs(y_vertical) < _stopRotationWithVerticalAxisMorThan &&
+				Mathf.Abs(x_horizontal) > _startRotationWithHorizontalAxisMorThan &&
+				Mathf.Abs(delta) < 0.01)//add rotation if runnig left or right
+			{
+				nextRotation =
+					Quaternion.AngleAxis(_additionalRotationSpeed * Time.deltaTime * x_horizontal,
+						Vector3.up) * nextRotation;
+			}
 		}
 
 		var nextAngle = Quaternion.Angle(nextRotation,

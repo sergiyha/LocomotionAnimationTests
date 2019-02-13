@@ -302,8 +302,12 @@ MonoBehaviour:
   _cameraParentTr: {fileID: 973872472}
   _cameraTransform: {fileID: 1046490579}
   Offset: {x: 0, y: 1.4, z: 0}
-  _followCameraDampTime: 0.18
-  _decreaseDirectionValue: 13
+  _followCameraDampTime: 0.24
+  _decreaseDirectionValue: 12
+  _additionalRotationSpeed: 15
+  _mouseYAxisValueToStopRotation: 0.01
+  _startRotationWithHorizontalAxisMorThan: 0.1
+  _stopRotationWithVerticalAxisMorThan: 0.3
 --- !u!81 &973872470
 AudioListener:
   m_ObjectHideFlags: 0
