@@ -35,9 +35,9 @@ public class CameraController : MonoBehaviour
 	public void FollowCamera(Vector3 xz_movDir)
 	{
 		_cameraTransform.position = new Vector3
-		(CustomMathF.DoubleSmoothStep(_cameraTransform.transform.position.x - xz_movDir.x / _decreaseDirectionValue, _cameraParentTr.position.x, _followCameraDampTime),
+		(EasingFunction.EaseInOutExpo(_cameraTransform.transform.position.x - xz_movDir.x / _decreaseDirectionValue, _cameraParentTr.position.x, _followCameraDampTime),
 		_cameraTransform.position.y,
-		CustomMathF.DoubleSmoothStep(_cameraTransform.transform.position.z - xz_movDir.z / _decreaseDirectionValue, _cameraParentTr.position.z, _followCameraDampTime));
+		EasingFunction.EaseInOutExpo(_cameraTransform.transform.position.z - xz_movDir.z / _decreaseDirectionValue, _cameraParentTr.position.z, _followCameraDampTime));
 	}
 
 	public static float QuadraticSmoothStep(float from, float to, float t)
@@ -92,15 +92,14 @@ public class CameraController : MonoBehaviour
 			var delta = Input.GetAxis("Mouse Y");
 			nextRotation = _rotation * Quaternion.AngleAxis(delta, Vector3.left);
 
-			var x_horizontal = Input.GetAxis("Horizontal");
-			var y_vertical = Input.GetAxis("Vertical");
+			var axis = InputProvider.Axis;
 
-			if (Mathf.Abs(y_vertical) < _stopRotationWithVerticalAxisMorThan &&
-				Mathf.Abs(x_horizontal) > _startRotationWithHorizontalAxisMorThan &&
+			if (Mathf.Abs(axis.y) < _stopRotationWithVerticalAxisMorThan &&
+				Mathf.Abs(axis.x) > _startRotationWithHorizontalAxisMorThan &&
 				Mathf.Abs(delta) < 0.01)//add rotation if runnig left or right
 			{
 				nextRotation =
-					Quaternion.AngleAxis(_additionalRotationSpeed * Time.deltaTime * x_horizontal,
+					Quaternion.AngleAxis(_additionalRotationSpeed * Time.deltaTime * axis.x,
 						Vector3.up) * nextRotation;
 			}
 		}

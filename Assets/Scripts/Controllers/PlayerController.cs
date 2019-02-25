@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private Animator _animator;
 
 	public CameraController _cameraController;
-
+		
+	[Range(0, 20)]
 	[SerializeField] private float _rotationSmoothness;
 
 	[SerializeField] private SlidingSettings _slidingSettings;
@@ -31,11 +32,6 @@ public class PlayerController : MonoBehaviour
 	private void Start()
 	{
 		_controller = GetComponent<CharacterController>();
-		//_rollingSmt = _animator.GetBehaviours<BaseSmt>().First(smt => smt.SMTName == "Rolling");
-		; //.First(smt => smt.SMTName == "Rolling");
-		//_rollingSmt.StartSMT += OnRollingStarted;
-		//_rollingSmt.ExitSMT += OnRollingFinished;
-		//_animationEventHandler.RollingAnimationStarted += OnRollingStarted;
 		_animationEventHandler.RollingAnimationFinished += OnRollingFinished;
 
 		gameObject.transform.position = new Vector3(0, 5, 0);
@@ -54,18 +50,18 @@ public class PlayerController : MonoBehaviour
 
 			if (CheckMovementButtons() && !_isRolling)
 			{
-				var x_horizontal = Input.GetAxis("Horizontal");
-				var y_vertical = Input.GetAxis("Vertical");
+				
+				var normalizedDirection = InputProvider.NormalizedAxis;
 				_playerDirection = _cameraRotationVector =
 					Quaternion.LookRotation(_cameraController.GetDirectionToTarget()) *
-					new Vector3(x_horizontal, 0f, y_vertical);
+					new Vector3(normalizedDirection.x, 0f, normalizedDirection.y);
 				//rotate axis vector depends on camera direction
 
 
 				_animator.SetBool("IsMoving", true);
 
-				_animator.SetFloat("X", x_horizontal);
-				_animator.SetFloat("Y", y_vertical);
+				_animator.SetFloat("X", normalizedDirection.x);
+				_animator.SetFloat("Y", normalizedDirection.y);
 
 				CheckRolling();
 			}
@@ -78,7 +74,7 @@ public class PlayerController : MonoBehaviour
 				_animator.SetBool("IsMoving", false);
 			}
 
-				_cameraController.FollowCamera(_playerDirection);
+			_cameraController.FollowCamera(_playerDirection);
 			_moveDirection = _playerDirection * speed;
 			RotateBody(_cameraRotationVector.x, _cameraRotationVector.z);
 		}
@@ -106,14 +102,14 @@ public class PlayerController : MonoBehaviour
 	private bool CheckMovementButtons()
 	{
 		var simultaneouslyDA = Input.GetKey(KeyCode.D) &&
-		                       Input.GetKey(KeyCode.A);
+							   Input.GetKey(KeyCode.A);
 		var simultaneouslyWS = Input.GetKey(KeyCode.W) &&
-		                       Input.GetKey(KeyCode.S);
+							   Input.GetKey(KeyCode.S);
 
 		var any = Input.GetKey(KeyCode.W) ||
-		          Input.GetKey(KeyCode.S) ||
-		          Input.GetKey(KeyCode.A) ||
-		          Input.GetKey(KeyCode.D);
+				  Input.GetKey(KeyCode.S) ||
+				  Input.GetKey(KeyCode.A) ||
+				  Input.GetKey(KeyCode.D);
 		//Debug.LogError("ad: " + simultaneouslyDA + " ws: " + simultaneouslyWS + " any: " + any);
 
 		return any && !simultaneouslyWS && !simultaneouslyDA;
@@ -134,15 +130,12 @@ public class PlayerController : MonoBehaviour
 	private void OnRollingStarted()
 	{
 		_isRolling = true;
-		//Debug.LogError("start");
 	}
 
 	private void OnRollingFinished()
 	{
 		_isRolling = false;
 		_playerDirection = _playerDirection / _slidingSettings.StopingRolingSpeed;
-
-		//Debug.LogError("finish");
 	}
 
 	private void RotateBody(float x, float z)

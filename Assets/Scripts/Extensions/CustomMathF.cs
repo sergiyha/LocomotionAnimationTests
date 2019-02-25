@@ -19,5 +19,12 @@ namespace Extensions
 			return (float)((double)to * (double)t + (double)from * (1.0 - (double)t));
 		}
 
+		public static float EaseOutCirc(float start, float end, float value)
+		{
+			value--;
+			end -= start;
+			return end * Mathf.Sqrt(1 - value * value) + start;
+		}
+
 	}
 }
